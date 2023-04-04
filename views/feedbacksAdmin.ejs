@@ -1,0 +1,110 @@
+<!-- display all the reviews to admin with add review button and a modal where admin can add their review -->
+<div style="width: 100%">
+  <button
+    type="button"
+    class="btn btn-outline-success"
+    style="margin-left: 47%; margin-top: 1%"
+    data-bs-toggle="modal"
+    data-bs-target="#exampleModal"
+  >
+    Add Review
+  </button>
+
+  <div style="margin: auto" class="container">
+    <div class="row d-flex justify-content-center">
+      <% for(let review of reviews) { %>
+      <div class="col-md-3 m-4" style="width: 35%">
+        <div class="card">
+          <div class="card-body">
+            <p class="card-text">
+              <strong>Recipient:</strong> <%= review.recipient.email %> (<%=
+              review.recipient.name %>)
+            </p>
+            <p class="card-text">
+              <strong>Reviewer:</strong> <%= review.reviewer.email %> (<%=
+              review.reviewer.name %>)
+            </p>
+            <p class="card-text">
+              <strong>Review:</strong> <%= review.review %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+  
+
+  <!-- Modal to add their review-->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Review</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <form action="/dashboard/<%= locals.user._id %>/admin/addReview" method="post">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="input1" class="form-label">Reviewer:</label>
+              <input
+                name="reviewer"
+                type="text"
+                class="form-control"
+                id="input1"
+                value="<%= locals.user.email %>"
+                readonly
+              />
+            </div>
+            <div class="mb-3">
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Recipient:</label>
+                <select
+                  name="recipient"
+                  class="form-control form-select"
+                  id="exampleFormControlSelect1"
+                >
+                  <% for(let user of users){ %> <% if(user.email != locals.user.email){ %>
+                  <option value="<%= user._id %>">
+                    <%= user.name %> (<%= user.email %>)
+                  </option>
+                  <% } %> <% } %>
+                </select>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="textarea" class="form-label">Text Area</label>
+              <textarea
+                name="feedback"
+                class="form-control"
+                id="textarea"
+                rows="3"
+              ></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-success">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

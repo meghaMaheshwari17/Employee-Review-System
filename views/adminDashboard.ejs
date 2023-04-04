@@ -1,0 +1,73 @@
+<!-- display to admin:- list of employees -->
+<h2 class="text-center m-3">List of Employees</h2>
+<div style="width:100%; margin:auto;" class="container">
+  <div class="row">
+    <% for(let employee of employees){ %>
+    <div style="width:30%;" class="col-md-3 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/1144/1144709.png"
+                class="rounded-circle m-1"
+                style="width: 4rem"
+                alt="Profile Icon"
+              />
+            </div>
+            <div class="col m-1">
+              <h5 class="card-title"><%= employee.name %></h5>
+              <p class="card-text"><%= employee.email %></p>
+            </div>
+          </div>
+          <div class="d-flex flex-column">
+            <div class="col mt-2 p-1 d-flex flex-row justify-content-center">
+              <a href="/dashboard/<%= locals.user._id %>/admin/editUserPage/<%= employee._id %>" class="mx-4 btn btn-outline-secondary">Edit</a>
+              <a href="/dashboard/<%= locals.user._id %>/admin/deleteUser/<%= employee._id %>" class="mx-4 btn btn-outline-danger">Delete</a>
+            </div>
+            <div class="col text-center">
+              <button style="width: 50%" type="button" class="m-4 btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#user-<%= employee._id %>">Assign Review</button>
+            </div>
+            <!-- Modal to assign review to employee-->
+<div class="modal fade" id="user-<%= employee._id %>" tabindex="-1" aria-labelledby="<%= employee._id %>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Assign Review</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/dashboard/<%= locals.user._id %>/admin/assignReview/<%= employee._id %>" method="post">
+      <div class="modal-body">
+        <p>Reviewer: <strong><%= employee.name %> (<%= employee.email %>)</strong></p>
+        <!-- to display recipient -->
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Recipient:</label>
+          <select name="recipient" class="form-control form-select" id="exampleFormControlSelect1">
+            <% for(let e of employees){ %>
+              <!-- if reviewer != recipient and a review is not already assigned to them -->
+              <% if(e!==employee && !employee.assignedReviews.includes(e._id)){ %>
+                <option value="<%= e._id %>">
+                  <%= e.name %> (<%= e.email %>)
+                </option>
+              <% } %>
+            <% } %>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Assign</button>
+      </div>
+    </form>
+    </div>
+  </div>
+  </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<!-- display assigned reviews to employees -->
+<h2 class="text-center m-2">Assigned Reviews</h2>
+<div class="container">
+    <div class="row" style="margin-left:10%;">
+        <% for(let recipient of assignedReviews) { %>
+      <div class="col-auto m-3" style="width:40%;">
+        <div class="card">
+          <div class="card-body">
+            <!-- <h5 class="card-title">Assigned Review</h5> -->
+            <form action="/dashboard/<%= locals.user._id %>/employee/giveFeedback" method="post">
+            <div class="form-group">
+                <label for="recipient">Recipient</label>
+                <input style="width:100%" id="recipient" type="text" readonly name="recipient" value="<%= recipient.email %>"/>
+            </div>
+              <div class="form-group">
+                <label for="feedback">Feedback</label>
+                <textarea name="feedback" class="form-control" placeholder="Enter your feedback" rows="3"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary m-3">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+  

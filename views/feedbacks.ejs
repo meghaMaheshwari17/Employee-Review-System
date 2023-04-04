@@ -1,0 +1,17 @@
+<!-- display feedbacks from others to employees -->
+<div class="container m-4">
+    <div class="row">
+        <% for(let feedback of feedbacksFromOthers) { %>
+      <div style="width:40%;" class="col-md-4 m-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Reviewer: <%= feedback.reviewer.name %> (<%= feedback.reviewer.email %>)</h5>
+            <h5>Feedback:</h5>
+            <p class="card-text"><%= feedback.review %></p>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+  
